@@ -128,12 +128,12 @@ class SchedulingPollsController < ApplicationController
   def vote
     ensure_allowed_to_vote_scheduling_polls
     user = User.current
-
     has_change = @poll.scheduling_poll_items.any? do |item|
       item.vote_value_by_user(user) != (params[:scheduling_vote][item.id.to_s].to_i || 0)
     end
 
     if has_change
+      Issue.find(@poll.issue.id).set_watcher(user)
       @poll.scheduling_poll_items.each do |item|
         item.vote(user, params[:scheduling_vote][item.id.to_s])
       end
