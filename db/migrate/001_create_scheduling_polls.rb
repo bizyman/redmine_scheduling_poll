@@ -1,4 +1,4 @@
-class CreateSchedulingPolls < ActiveRecord::Migration
+class CreateSchedulingPolls < ActiveRecord::Migration[5.2]
   def change
     create_table :scheduling_polls do |t|
       t.integer :issue_id, :null => false
